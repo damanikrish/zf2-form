@@ -1,10 +1,12 @@
 <?php
+
 /**
- * Description
+ * Description.
  *
  * @category  StrokerFormTest
- * @package   StrokerFormTest\Renderer
+ *
  * @copyright 2012 Bram Gerritsen
+ *
  * @version   SVN: $Id$
  */
 
@@ -13,6 +15,7 @@ namespace StrokerFormTest\Renderer\JqueryValidate\Rule;
 use StrokerForm\Renderer\JqueryValidate\Rule\RuleInterface;
 use Zend\Form\Element\Text;
 use Zend\Form\ElementInterface;
+use Zend\I18n\Translator\Translator;
 use Zend\Validator\ValidatorInterface;
 
 abstract class AbstractRuleTest extends \PHPUnit_Framework_TestCase
@@ -48,24 +51,24 @@ abstract class AbstractRuleTest extends \PHPUnit_Framework_TestCase
     abstract protected function createValidator();
 
     /**
-     * Create Form element
+     * Create Form element.
      */
     protected function createElement()
     {
-        if($this->element === null)
-        {
-            $this->element = new Text("element");
+        if ($this->element === null) {
+            $this->element = new Text('element');
         }
+
         return $this->element;
     }
 
     /**
-     * Setup test
+     * Setup test.
      */
     public function setUp()
     {
         $this->rule = $this->createRule();
-        $this->translatorMock = $this->getMock('Zend\I18n\Translator\Translator', array('translate'));
+        $this->translatorMock = $this->createMock(Translator::class);
         $this->rule->setTranslator($this->translatorMock);
         $this->validator = $this->createValidator();
         $this->element = $this->createElement();
@@ -76,7 +79,9 @@ abstract class AbstractRuleTest extends \PHPUnit_Framework_TestCase
      */
     protected function getRules()
     {
-        return $this->getRule()->getRules($this->getValidator(), $this->getElement());
+        return $this->getRule()->getRules(
+            $this->getValidator(), $this->getElement()
+        );
     }
 
     /**
@@ -120,11 +125,17 @@ abstract class AbstractRuleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * testGetRulesReturnsArray
+     * testGetRulesReturnsArray.
      */
     public function testGetRulesReturnsArray()
     {
-        $this->assertTrue(is_array($this->getRule()->getRules($this->getValidator(), $this->getElement())));
+        $this->assertTrue(
+            is_array(
+                $this->getRule()->getRules(
+                    $this->getValidator(), $this->getElement()
+                )
+            )
+        );
     }
 
     public function testGetSetTranslatorTextDomain()
@@ -144,5 +155,13 @@ abstract class AbstractRuleTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->getRule()->hasTranslator());
         $this->getRule()->setTranslator(null);
         $this->assertFalse($this->getRule()->hasTranslator());
+    }
+
+    /**
+     * Assert that the Rule is allowed to handle the validator
+     */
+    public function testCanHandleReturnsTrue()
+    {
+        $this->assertTrue($this->getRule()->canHandle($this->getValidator()));
     }
 }

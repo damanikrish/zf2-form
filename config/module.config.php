@@ -1,23 +1,28 @@
 <?php
-return array(
-    'router' => array(
-        'routes' => array(
-            'strokerform-ajax-validate' => array(
+use StrokerForm\Controller\AjaxController;
+
+return [
+    'router' => [
+        'routes' => [
+            'strokerform-ajax-validate' => [
                 'type' => 'Segment',
-                'options' => array(
+                'options' => [
                     'route' => '/form/validate-ajax/:form',
-                    'defaults' => array(
-                        'controller' => 'StrokerForm\Controller\Ajax',
+                    'defaults' => [
+                        'controller' => AjaxController::class,
                         'action' => 'validate',
-                    ),
-                )
-            ),
-            'strokerform-asset' => array(
+                    ],
+                ]
+            ],
+            'strokerform-asset' => [
                 'type' => 'Literal',
-                'options' => array(
+                'options' => [
                     'route' => '/assets',
-                )
-            ),
-        )
-    ),
-);
+                ]
+            ],
+        ]
+    ],
+    'stroker_form' => [
+        'jquery_validate_rule_plugins' => []
+    ]
+];

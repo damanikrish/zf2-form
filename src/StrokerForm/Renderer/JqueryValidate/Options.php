@@ -34,6 +34,11 @@ class Options extends \StrokerForm\Renderer\Options
     private $customValidationRules = array();
 
     /**
+     * @var boolean
+     */
+    private $disableAjaxFallback = false;
+
+    /**
      * @return array
      */
     public function getValidateOptions()
@@ -86,6 +91,7 @@ class Options extends \StrokerForm\Renderer\Options
 
     /**
      * @param string $initializeTrigger
+     *
      * @return Options
      */
     public function setInitializeTrigger($initializeTrigger)
@@ -104,6 +110,7 @@ class Options extends \StrokerForm\Renderer\Options
 
     /**
      * @param array $customValidationRules
+     *
      * @return Options $this
      */
     public function setCustomValidationRules(array $customValidationRules)
@@ -111,5 +118,21 @@ class Options extends \StrokerForm\Renderer\Options
         $this->customValidationRules = $customValidationRules;
 
         return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDisableAjaxFallback()
+    {
+        return $this->disableAjaxFallback;
+    }
+
+    /**
+     * @param boolean $disableAjaxFallback
+     */
+    public function setDisableAjaxFallback($disableAjaxFallback)
+    {
+        $this->disableAjaxFallback = $disableAjaxFallback;
     }
 }
